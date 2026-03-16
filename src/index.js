@@ -8,3 +8,7 @@ console.log(
 );
 console.log("Version 1.0.0");
 console.log("This is a simple demo application to demonstrate release-please.");
+
+console.log(
+  "This application will be updated and released automatically using release-please.",
+);
