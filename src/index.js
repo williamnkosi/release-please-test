@@ -16,3 +16,5 @@ console.log(
 console.log(
   "This application is a simple example of how to use release-please for automated releases.",
 );
+
+console.log("changed the boolean");
