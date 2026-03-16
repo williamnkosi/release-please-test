@@ -12,3 +12,7 @@ console.log("This is a simple demo application to demonstrate release-please.");
 console.log(
   "This application will be updated and released automatically using release-please.",
 );
+
+console.log(
+  "This application is a simple example of how to use release-please for automated releases.",
+);
