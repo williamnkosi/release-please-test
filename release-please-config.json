@@ -1,0 +1,13 @@
+{
+  "packages": {
+    ".": {
+      "package-name": "release-please-demo",
+      "changelog-path": "CHANGELOG.md"
+    }
+  },
+  "changelog-path": "CHANGELOG.md",
+  "bump-minor-pre-major": false,
+  "bump-patch-for-minor-pre-major": false,
+  "create-release": "true",
+  "default-branch": "main"
+}
