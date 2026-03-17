@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/williamnkosi/release-please-test/compare/release-please-demo-v1.3.0...release-please-demo-v1.4.0) (2026-03-17)
+
+
+### Features
+
+* added logic for release notes ([0c9c03a](https://github.com/williamnkosi/release-please-test/commit/0c9c03ab8c9becc0e986921e343673c312be3ebf))
+* added v4 ([41f0957](https://github.com/williamnkosi/release-please-test/commit/41f09571bbad520d21901cbe49914348519089e1))
+
 ## [1.3.0](https://github.com/williamnkosi/release-please-test/compare/release-please-demo-v1.2.0...release-please-demo-v1.3.0) (2026-03-16)
 
 
