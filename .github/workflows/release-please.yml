@@ -21,21 +21,43 @@ jobs:
 
       - name: Extract latest release notes
         run: |
-          # Extract the latest version section from CHANGELOG.md
-          # This gets everything from the first ## [version] to the next ## [
-          # or to the end of file if there's only one version
-          awk '/^## \[/{if(NR>1)exit}{if(NR>1)print}' CHANGELOG.md | sed '$ d' > RELEASE_NOTES.txt || true
+          # Use a more robust approach to extract the latest version section
+          # Find the first occurrence of ## [ and extract until the next ## [ or EOF
+          python3 << 'EOF'
+          import re
 
-          # If the file is empty, use a different approach
-          if [ ! -s RELEASE_NOTES.txt ]; then
-            sed -n '/^## \[/,/^## \[/{/^## \[/!p;}' CHANGELOG.md | head -n -1 > RELEASE_NOTES.txt
-          fi
+          with open('CHANGELOG.md', 'r') as f:
+              content = f.read()
 
-          # Show what we extracted (for debugging)
-          echo "=== Extracted Release Notes ==="
-          cat RELEASE_NOTES.txt
+          # Find all version sections (starting with ## [)
+          sections = re.split(r'\n(## \[)', content)
 
-      - name: Upload release notes artifact
+          # If we have at least 3 parts ([0, '## [', content...])
+          if len(sections) >= 3:
+              # The first real version is at index 2 (after intro)
+              # Take everything until the next version marker
+              latest_version = sections[2]
+              
+              # Split by the next ## [ to get just this version's content
+              if len(sections) > 4:
+                  # There's another version after this one
+                  latest_section = sections[3].split('\n(## \[')[0]
+              else:
+                  # This is the last/only version
+                  latest_section = sections[3]
+              
+              # Reconstruct and clean up
+              release_notes = ('## [' + latest_version + latest_section).strip()
+          else:
+              release_notes = "No release notes found"
+
+          # Write to file
+          with open('RELEASE_NOTES.txt', 'w') as f:
+              f.write(release_notes)
+
+          print("=== Extracted Release Notes ===")
+          print(release_notes)
+          EOF
         uses: actions/upload-artifact@v4
         with:
           name: release-notes
