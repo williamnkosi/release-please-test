@@ -18,3 +18,26 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+
+      - name: Extract latest release notes
+        run: |
+          # Extract the latest version section from CHANGELOG.md
+          # This gets everything from the first ## [version] to the next ## [
+          # or to the end of file if there's only one version
+          awk '/^## \[/{if(NR>1)exit}{if(NR>1)print}' CHANGELOG.md | sed '$ d' > RELEASE_NOTES.txt || true
+          
+          # If the file is empty, use a different approach
+          if [ ! -s RELEASE_NOTES.txt ]; then
+            sed -n '/^## \[/,/^## \[/{/^## \[/!p;}' CHANGELOG.md | head -n -1 > RELEASE_NOTES.txt
+          fi
+          
+          # Show what we extracted (for debugging)
+          echo "=== Extracted Release Notes ==="
+          cat RELEASE_NOTES.txt
+
+      - name: Upload release notes artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-notes
+          path: RELEASE_NOTES.txt
+          retention-days: 30
